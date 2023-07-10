@@ -24,7 +24,10 @@ app.use('*', async (c, next) => {
 
 app.onError((e, c) => {
 	const faunaError = getFaunaError(e);
-	return c.json(faunaError, faunaError?.status);
+	if (faunaError) {
+		return c.json(faunaError, faunaError?.status);
+	}
+	return c.text('Internal Server Error', 500);
 });
 
 app.post('/products', async (c) => {
