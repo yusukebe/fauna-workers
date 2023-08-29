@@ -28,7 +28,7 @@ app.use('*', async (c, next) => {
 });
 
 app.post('/products', async (c) => {
-	const { serialNumber, title, weightLbs } = await c.req.json<Product>();
+	const { serialNumber, title, weightLbs } = await c.req.json<Omit<Product, 'id'>>();
 	const query = fql`Products.create({
 		serialNumber: ${serialNumber},
 		title: ${title},
@@ -55,9 +55,9 @@ app.delete('/products/:productId', async (c) => {
 
 app.patch('/products/:productId/add-quantity', async (c) => {
 	const productId = c.req.param('productId');
-	const { quantity } = await c.req.json<{ quantity: number }>();
+	const { quantity } = await c.req.json<Pick<Product, 'quantity'>>();
 	const query = fql`Products.byId(${productId}){ quantity : .quantity + ${quantity}}`;
-	const result = await c.get('faunaClient').query<Product>(query);
+	const result = await c.get('faunaClient').query<Pick<Product, 'quantity'>>(query);
 	return c.json(result.data);
 });
 
