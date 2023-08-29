@@ -1,7 +1,5 @@
 # fauna-workers
 
-This code is based on https://github.com/fauna-labs/fauna-workers by Copyright Fauna, Inc. Licensed MIT-0.
-
 ## Install
 
 ```
@@ -25,7 +23,7 @@ FAUNA_SECRET=your-secret
 ## Develop
 
 ```
-npm run start
+npm run dev
 ```
 
 ## Deploy
@@ -33,3 +31,11 @@ npm run start
 ```
 npm run deploy
 ```
+
+## Authors
+
+- Yusuke Wada <https://github.com/yusukebe>
+
+## License
+
+MIT
