@@ -39,21 +39,21 @@ app.post('/products', async (c) => {
     weightLbs: ${weightLbs},
     quantity: 0
   })`;
-  const result = await c.get('faunaClient').query<Product>(query);
+  const result = await c.var.faunaClient.query<Product>(query);
   return c.json(result.data);
 });
 
 app.get('/products/:productId', async (c) => {
   const productId = c.req.param('productId');
   const query = fql`Products.byId(${productId})`;
-  const result = await c.get('faunaClient').query<Product>(query);
+  const result = await c.var.faunaClient.query<Product>(query);
   return c.json(result.data);
 });
 
 app.delete('/products/:productId', async (c) => {
   const productId = c.req.param('productId');
   const query = fql`Products.byId(${productId})!.delete()`;
-  const result = await c.get('faunaClient').query<Product>(query);
+  const result = await c.var.faunaClient.query<Product>(query);
   return c.json(result.data);
 });
 
@@ -61,7 +61,7 @@ app.patch('/products/:productId/add-quantity', async (c) => {
   const productId = c.req.param('productId');
   const { quantity } = await c.req.json<Pick<Product, 'quantity'>>();
   const query = fql`Products.byId(${productId}){ quantity : .quantity + ${quantity}}`;
-  const result = await c.get('faunaClient').query<Pick<Product, 'quantity'>>(query);
+  const result = await c.var.faunaClient.query<Pick<Product, 'quantity'>>(query);
   return c.json(result.data);
 });
 
